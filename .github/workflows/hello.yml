@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
       - name: run my action
         uses: garygrossgarten/billy-github-action@release
         with:
