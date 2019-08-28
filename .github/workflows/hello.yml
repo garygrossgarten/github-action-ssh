@@ -1,0 +1,21 @@
+name: Hello World Example
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: run my action
+        uses: garygrossgarten/actions/hello@release
+        with:
+          name: Gary
+
+        env:
+          CI: true

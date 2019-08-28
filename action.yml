@@ -1,0 +1,13 @@
+name: Hello World Billy Action
+author: garygrossgarten
+description: Hello World Project to show billy integration in GitHub Javascript Actions
+inputs:
+  name:
+    description: "Name of greeted person"
+    required: false
+    default: "World"
+runs:
+  using: "node12"
+  main: "dist/index.js"
+color: purple
+icon: heart
