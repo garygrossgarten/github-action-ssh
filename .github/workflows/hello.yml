@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 12.x
       - name: run my action
-        uses: garygrossgarten/actions/hello@release
+        uses: garygrossgarten/billy-github-action@release
         with:
           name: Gary
 
