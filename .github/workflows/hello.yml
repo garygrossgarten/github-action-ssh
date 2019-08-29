@@ -1,6 +1,8 @@
 name: Hello World Example
 
-on: [push]
+on:
+  push:
+    branches: release
 
 jobs:
   build:
