@@ -1,8 +1,7 @@
 name: Hello World Example
 
 on:
-  push:
-    branches: release/*
+  push
 
 jobs:
   build:
