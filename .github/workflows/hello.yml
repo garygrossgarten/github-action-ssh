@@ -2,7 +2,7 @@ name: Hello World Example
 
 on:
   push:
-    branches: release
+    branches: release/*
 
 jobs:
   build:
