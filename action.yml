@@ -31,5 +31,6 @@ inputs:
 runs:
   using: "node12"
   main: "dist/index.js"
-color: purple
-icon: lock
+branding:
+  color: "purple"
+  icon: "lock"
