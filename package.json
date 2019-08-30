@@ -1,6 +1,6 @@
 {
   "name": "@garygrossgarten/github-action-ssh",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Run commands on a remote server via SSH.",
   "repository": {
     "type": "git",
@@ -30,9 +30,9 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "@fivethree/billy-core": "0.15.3",
-    "@fivethree/billy-plugin-core": "0.15.3",
-    "@garygrossgarten/billy-plugin-github-actions": "~0.1.21",
+    "@fivethree/billy-core": "0.18.0",
+    "@fivethree/billy-plugin-core": "0.18.0",
+    "@garygrossgarten/billy-plugin-github-actions": "0.5.0",
     "node-ssh": "~6.0.0"
   },
   "files": [
