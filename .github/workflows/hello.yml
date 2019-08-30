@@ -1,4 +1,4 @@
-name: Hello World Example
+name: Command via SSH
 
 on:
   push
@@ -8,10 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: run my action
-        uses: garygrossgarten/billy-github-action@release
+      - name: ls -a via OPEN SSH Private Key
+        uses: garygrossgarten/github-action-ssh@release/0.1.0
         with:
-          name: Gary
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          passphrase: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
 
         env:
           CI: true
