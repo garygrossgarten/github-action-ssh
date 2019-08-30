@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: ls -a via OPEN SSH Private Key
-        uses: garygrossgarten/github-action-ssh@release/0.1.0
+        uses: garygrossgarten/github-action-ssh@test/0.1.0
         with:
           command: ls -a
           host: ${{ secrets.HOST }}
