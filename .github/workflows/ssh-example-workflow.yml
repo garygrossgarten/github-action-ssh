@@ -1,7 +1,6 @@
 name: Command via SSH
 
-on:
-  push
+on: push
 
 jobs:
   build:
@@ -9,7 +8,7 @@ jobs:
 
     steps:
       - name: ls -a via OPEN SSH Private Key
-        uses: garygrossgarten/github-action-ssh@test/0.1.0
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: ls -a
           host: ${{ secrets.HOST }}
