@@ -32,4 +32,4 @@ runs:
   using: "node12"
   main: "dist/index.js"
 color: purple
-icon: code
+icon: lock
