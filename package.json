@@ -1,26 +1,27 @@
 {
-  "name": "hello",
-  "version": "0.0.5",
-  "description": "billy example app / boilerplate",
+  "name": "@garygrossgarten/github-action-ssh",
+  "version": "0.1.0",
+  "description": "Run commands on a remote server via SSH.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fivethree-team/billy-app"
+    "url": "https://github.com/garygrossgarten/github-action-ssh"
   },
   "main": "dist/index.js",
   "scripts": {
     "build": "node_modules/.bin/tsc -p ."
   },
   "bin": {
-    "hello": "dist/index.js"
+    "github-action-ssh": "dist/index.js"
   },
   "preferGlobal": false,
   "keywords": [
     "typescript",
-    "cli",
-    "node",
-    "terminal"
+    "github",
+    "github-actions",
+    "actions",
+    "ssh"
   ],
-  "author": "fivethree",
+  "author": "garygrossgarten",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.18",
@@ -31,7 +32,8 @@
   "dependencies": {
     "@fivethree/billy-core": "0.15.3",
     "@fivethree/billy-plugin-core": "0.15.3",
-    "@garygrossgarten/billy-plugin-github-actions": "~0.1.21"
+    "@garygrossgarten/billy-plugin-github-actions": "~0.1.21",
+    "node-ssh": "~6.0.0"
   },
   "files": [
     "dist"

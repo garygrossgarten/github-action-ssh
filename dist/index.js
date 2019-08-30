@@ -20,14 +20,68 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const billy_core_1 = require("@fivethree/billy-core");
 const billy_plugin_core_1 = require("@fivethree/billy-plugin-core");
 const billy_plugin_github_actions_1 = require("@garygrossgarten/billy-plugin-github-actions");
-let Hello = class Hello {
-    hello(name) {
+const node_ssh_1 = __importDefault(require("node-ssh"));
+const keyboard_1 = require("./keyboard");
+let SSH = class SSH {
+    ssh(command, host = "localhost", username, port = 22, privateKey, password, passphrase, tryKeyboard) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`Hello ${name}!`);
+            const ssh = yield this.connect(host, username, port, privateKey, password, passphrase, tryKeyboard);
+            yield this.executeCommand(ssh, command);
+            ssh.dispose();
+        });
+    }
+    connect(host = "localhost", username, port = 22, privateKey, password, passphrase, tryKeyboard) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const ssh = new node_ssh_1.default();
+            const m1 = yield this.colorize("orange", `Establishing a SSH connection to ${host}.`);
+            console.log(m1);
+            try {
+                yield ssh.connect({
+                    host: host,
+                    port: port,
+                    username: username,
+                    password: password,
+                    passphrase: passphrase,
+                    privateKey: privateKey,
+                    tryKeyboard: tryKeyboard,
+                    onKeyboardInteractive: tryKeyboard ? keyboard_1.keyboardFunction(password) : null
+                });
+                console.log(`🤝 Connected to ${host}.`);
+            }
+            catch (err) {
+                console.error(`⚠️ The GitHub Action couldn't connect to ${host}.`, err);
+                process.abort();
+            }
+            return ssh;
+        });
+    }
+    executeCommand(ssh, command) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const m2 = yield this.colorize("orange", `Executing command:`);
+            console.log(`${m2} ${command}`);
+            try {
+                yield ssh.exec(command, [], {
+                    stream: "both",
+                    onStdout(chunk) {
+                        console.log(chunk.toString("utf8"));
+                    },
+                    onStderr(chunk) {
+                        console.log(chunk.toString("utf8"));
+                    }
+                });
+                console.log("✅ SSH Action finished.");
+            }
+            catch (err) {
+                console.error(`⚠️ An error happened executing command ${command}.`, err);
+                process.abort();
+            }
         });
     }
 };
@@ -35,12 +89,19 @@ __decorate([
     billy_core_1.usesPlugins(billy_plugin_core_1.CorePlugin, billy_plugin_github_actions_1.GithubActionsPlugin),
     billy_core_1.Hook(billy_core_1.onStart),
     billy_plugin_github_actions_1.GitHubAction(),
-    __param(0, billy_plugin_github_actions_1.input("name")),
+    __param(0, billy_plugin_github_actions_1.input("command")),
+    __param(1, billy_plugin_github_actions_1.input("host")),
+    __param(2, billy_plugin_github_actions_1.input("username")),
+    __param(3, billy_plugin_github_actions_1.input("port")),
+    __param(4, billy_plugin_github_actions_1.input("privateKey")),
+    __param(5, billy_plugin_github_actions_1.input("password")),
+    __param(6, billy_plugin_github_actions_1.input("passphrase")),
+    __param(7, billy_plugin_github_actions_1.input("tryKeyboard")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [String, Object, String, Object, String, String, String, Boolean]),
     __metadata("design:returntype", Promise)
-], Hello.prototype, "hello", null);
-Hello = __decorate([
+], SSH.prototype, "ssh", null);
+SSH = __decorate([
     billy_core_1.App()
-], Hello);
-exports.Hello = Hello;
+], SSH);
+exports.SSH = SSH;
