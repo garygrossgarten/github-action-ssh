@@ -6,6 +6,7 @@ import {
   input,
   GitHubAction
 } from "@garygrossgarten/billy-plugin-github-actions";
+import core from '@actions/core';
 
 import node_ssh from "node-ssh";
 import { keyboardFunction } from "./keyboard";
@@ -95,6 +96,7 @@ export class SSH {
       console.log("✅ SSH Action finished.");
     } catch (err) {
       console.error(`⚠️ An error happened executing command ${command}.`, err);
+      core.setFailed(err.message);
       process.abort();
     }
   }
