@@ -10,7 +10,7 @@ jobs:
       - name: ls -a via OPEN SSH Private Key
         uses: garygrossgarten/github-action-ssh@test/0.4.1
         with:
-          command: false
+          command: node fail.js
           host: ${{ secrets.HOST }}
           username: garygrossgarten
           passphrase: ${{ secrets.PASSPHRASE }}
