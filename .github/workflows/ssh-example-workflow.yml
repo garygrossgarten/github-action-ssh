@@ -22,7 +22,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: garygrossgarten
           passphrase: ${{ secrets.PASSPHRASE }}
-            privateKey: ${{ secrets.PRIVATE_KEY}}: 
+          privateKey: ${{ secrets.PRIVATE_KEY}}
 
         env:
           CI: true
