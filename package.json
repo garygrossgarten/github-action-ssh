@@ -30,6 +30,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@actions/core": "^1.2.2",
     "@fivethree/billy-core": "0.18.0",
     "@fivethree/billy-plugin-core": "0.18.0",
     "@garygrossgarten/billy-plugin-github-actions": "0.5.0",
