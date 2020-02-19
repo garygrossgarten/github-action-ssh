@@ -6,7 +6,7 @@ import {
   input,
   GitHubAction
 } from "@garygrossgarten/billy-plugin-github-actions";
-import core from '@actions/core';
+import core from "@actions/core";
 
 import node_ssh from "node-ssh";
 import { keyboardFunction } from "./keyboard";
@@ -83,16 +83,19 @@ export class SSH {
     console.log(`${m2} ${command}`);
 
     try {
-      await ssh.exec(command, [], {
+      const result = await ssh.exec(command, [], {
         stream: "both",
         onStdout(chunk) {
           console.log(chunk.toString("utf8"));
         },
         onStderr(chunk) {
-          console.log('std err')
           console.log(chunk.toString("utf8"));
         }
       });
+
+      if (result.stderr.length) {
+        throw new Error(result.stderr);
+      }
 
       console.log("✅ SSH Action finished.");
     } catch (err) {
