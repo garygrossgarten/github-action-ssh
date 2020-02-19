@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: ls -a via OPEN SSH Private Key
-        uses: garygrossgarten/github-action-ssh@test/0.4.2
+        uses: garygrossgarten/github-action-ssh@test/0.4.3
         with:
           command: node fail.js
           host: ${{ secrets.HOST }}
