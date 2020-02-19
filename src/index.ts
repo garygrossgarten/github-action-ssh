@@ -89,6 +89,7 @@ export class SSH {
           console.log(chunk.toString("utf8"));
         },
         onStderr(chunk) {
+          console.log('std err')
           console.log(chunk.toString("utf8"));
         }
       });
