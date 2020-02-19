@@ -83,18 +83,20 @@ export class SSH {
     console.log(`${m2} ${command}`);
 
     try {
-      const result = await ssh.exec(command, [], {
+      const errors = [];
+      await ssh.exec(command, [], {
         stream: "both",
         onStdout(chunk) {
           console.log(chunk.toString("utf8"));
         },
         onStderr(chunk) {
+          errors.push(chunk);
           console.log(chunk.toString("utf8"));
         }
       });
 
-      if (result.stderr.length) {
-        throw new Error(result.stderr);
+      if (errors.length) {
+        throw new Error(errors.join("\n"));
       }
 
       console.log("✅ SSH Action finished.");

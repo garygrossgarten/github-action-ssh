@@ -68,17 +68,19 @@ let SSH = class SSH {
             const m2 = yield this.colorize("orange", `Executing command:`);
             console.log(`${m2} ${command}`);
             try {
-                const result = yield ssh.exec(command, [], {
+                const errors = [];
+                yield ssh.exec(command, [], {
                     stream: "both",
                     onStdout(chunk) {
                         console.log(chunk.toString("utf8"));
                     },
                     onStderr(chunk) {
+                        errors.push(chunk);
                         console.log(chunk.toString("utf8"));
                     }
                 });
-                if (result.stderr.length) {
-                    throw new Error(result.stderr);
+                if (errors.length) {
+                    throw new Error(errors.join("\n"));
                 }
                 console.log("✅ SSH Action finished.");
             }
