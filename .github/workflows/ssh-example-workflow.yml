@@ -8,13 +8,21 @@ jobs:
 
     steps:
       - name: ls -a via OPEN SSH Private Key
-        uses: garygrossgarten/github-action-ssh@test/0.4.0
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          passphrase: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+      - name: this step should fail
+        uses: garygrossgarten/github-action-ssh@release
         with:
           command: node fail.js
           host: ${{ secrets.HOST }}
           username: garygrossgarten
           passphrase: ${{ secrets.PASSPHRASE }}
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+            privateKey: ${{ secrets.PRIVATE_KEY}}: 
 
         env:
           CI: true
