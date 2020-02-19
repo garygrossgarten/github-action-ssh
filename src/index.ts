@@ -6,7 +6,7 @@ import {
   input,
   GitHubAction
 } from "@garygrossgarten/billy-plugin-github-actions";
-import core from "@actions/core";
+import * as core from '@actions/core';
 
 import node_ssh from "node-ssh";
 import { keyboardFunction } from "./keyboard";
