@@ -1,33 +1,18 @@
-#!/usr/bin/env node
-import { App, Hook, onStart, usesPlugins } from "@fivethree/billy-core";
-import { CorePlugin } from "@fivethree/billy-plugin-core";
-import {
-  GithubActionsPlugin,
-  input,
-  GitHubAction
-} from "@garygrossgarten/billy-plugin-github-actions";
-import core from '@actions/core';
+import * as core from '@actions/core';
+import node_ssh from 'node-ssh';
+import {keyboardFunction} from './keyboard';
 
-import node_ssh from "node-ssh";
-import { keyboardFunction } from "./keyboard";
-
-export interface SSH extends CorePlugin, GithubActionsPlugin {}
-@App()
-export class SSH {
-  @usesPlugins(CorePlugin, GithubActionsPlugin)
-  @Hook(onStart)
-  @GitHubAction()
-  async ssh(
-    @input("command") command: string,
-    @input("host") host = "localhost",
-    @input("username") username: string,
-    @input("port") port = 22,
-    @input("privateKey") privateKey: string,
-    @input("password") password: string,
-    @input("passphrase") passphrase: string,
-    @input("tryKeyboard") tryKeyboard: boolean
-  ) {
-    const ssh = await this.connect(
+async function run() {
+  const command: string = core.getInput('command');
+  const host: string = core.getInput('host') || 'localhost';
+  const username: string = core.getInput('username');
+  const port: number = +core.getInput('port') || 22;
+  const privateKey: string = core.getInput('privateKey');
+  const password: string = core.getInput('password');
+  const passphrase: string = core.getInput('passphrase');
+  const tryKeyboard: boolean = !!core.getInput('tryKeyboard');
+  try {
+    const ssh = await connect(
       host,
       username,
       port,
@@ -37,67 +22,67 @@ export class SSH {
       tryKeyboard
     );
 
-    await this.executeCommand(ssh, command);
+    await executeCommand(ssh, command);
 
     ssh.dispose();
+  } catch (err) {
+    core.setFailed(err);
   }
 
-  private async connect(
-    host = "localhost",
-    username: string,
-    port = 22,
-    privateKey: string,
-    password: string,
-    passphrase: string,
-    tryKeyboard: boolean
-  ) {
-    const ssh = new node_ssh();
-    const m1 = await this.colorize(
-      "orange",
-      `Establishing a SSH connection to ${host}.`
-    );
-    console.log(m1);
+}
 
-    try {
-      await ssh.connect({
-        host: host,
-        port: port,
-        username: username,
-        password: password,
-        passphrase: passphrase,
-        privateKey: privateKey,
-        tryKeyboard: tryKeyboard,
-        onKeyboardInteractive: tryKeyboard ? keyboardFunction(password) : null
-      });
-      console.log(`🤝 Connected to ${host}.`);
-    } catch (err) {
-      console.error(`⚠️ The GitHub Action couldn't connect to ${host}.`, err);
-      process.abort();
-    }
+async function connect(
+  host = 'localhost',
+  username: string,
+  port = 22,
+  privateKey: string,
+  password: string,
+  passphrase: string,
+  tryKeyboard: boolean
+) {
+  const ssh = new node_ssh();
+  console.log(`Establishing a SSH connection to ${host}.`);
 
-    return ssh;
+  try {
+    await ssh.connect({
+      host: host,
+      port: port,
+      username: username,
+      password: password,
+      passphrase: passphrase,
+      privateKey: privateKey,
+      tryKeyboard: tryKeyboard,
+      onKeyboardInteractive: tryKeyboard ? keyboardFunction(password) : null
+    });
+    console.log(`🤝 Connected to ${host}.`);
+  } catch (err) {
+    console.error(`⚠️ The GitHub Action couldn't connect to ${host}.`, err);
+    core.setFailed(err.message);
   }
 
-  private async executeCommand(ssh: node_ssh, command: string) {
-    const m2 = await this.colorize("orange", `Executing command:`);
-    console.log(`${m2} ${command}`);
+  return ssh;
+}
 
-    try {
-      await ssh.exec(command, [], {
-        stream: "both",
-        onStdout(chunk) {
-          console.log(chunk.toString("utf8"));
-        },
-        onStderr(chunk) {
-          console.log(chunk.toString("utf8"));
-        }
-      });
+async function executeCommand(ssh: node_ssh, command: string) {
+  console.log(`Executing command: ${command}`);
 
-      console.log("✅ SSH Action finished.");
-    } catch (err) {
-      console.error(`⚠️ An error happened executing command ${command}.`, err);
-      core.setFailed(err.message);
-      process.abort();
-    }
+  try {
+    await ssh.exec(command, [], {
+      stream: "both",
+      onStdout(chunk) {
+        console.log(chunk.toString("utf8"));
+      },
+      onStderr(chunk) {
+        console.log(chunk.toString("utf8"));
+      }
+    });
+
+    console.log("✅ SSH Action finished.");
+  } catch (err) {
+    console.error(`⚠️ An error happened executing command ${command}.`, err);
+    core.setFailed(err.message);
+    process.abort();
   }
 }
+
+run();
