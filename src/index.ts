@@ -67,7 +67,7 @@ async function executeCommand(ssh: node_ssh, command: string) {
   console.log(`Executing command: ${command}`);
 
   try {
-    await ssh.exec(command, [], {
+    const {code} = await ssh.exec(command, [], {
       stream: "both",
       onStdout(chunk) {
         console.log(chunk.toString("utf8"));
@@ -77,9 +77,12 @@ async function executeCommand(ssh: node_ssh, command: string) {
       }
     });
 
+    if (code > 0) {
+      throw Error(`Command exited with code ${code}`);
+    }
     console.log("✅ SSH Action finished.");
   } catch (err) {
-    console.error(`⚠️ An error happened executing command ${command}.`, err);
+    console.error(`⚠️ An error happened executing command ${command}.`, err?.message ?? err);
     core.setFailed(err.message);
     process.abort();
   }
