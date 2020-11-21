@@ -1,6 +1,6 @@
 {
   "name": "@garygrossgarten/github-action-ssh",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Run commands on a remote server via SSH.",
   "repository": {
     "type": "git",
