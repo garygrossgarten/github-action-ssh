@@ -1,0 +1,30 @@
+name: Test latest commit
+
+on: 
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: ls -a via OPEN SSH Private Key
+        uses: ./
+        with:
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+      - name: This step should fail
+        uses: ./
+        with:
+          command: sh throw_error.sh
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+        env:
+          CI: true    

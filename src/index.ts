@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import node_ssh from 'node-ssh';
+import {NodeSSH} from 'node-ssh';
 import {keyboardFunction} from './keyboard';
 
 async function run() {
@@ -28,7 +28,6 @@ async function run() {
   } catch (err) {
     core.setFailed(err);
   }
-
 }
 
 async function connect(
@@ -40,7 +39,7 @@ async function connect(
   passphrase: string,
   tryKeyboard: boolean
 ) {
-  const ssh = new node_ssh();
+  const ssh = new NodeSSH();
   console.log(`Establishing a SSH connection to ${host}.`);
 
   try {
@@ -63,26 +62,29 @@ async function connect(
   return ssh;
 }
 
-async function executeCommand(ssh: node_ssh, command: string) {
+async function executeCommand(ssh: NodeSSH, command: string) {
   console.log(`Executing command: ${command}`);
 
   try {
     const {code} = await ssh.exec(command, [], {
-      stream: "both",
+      stream: 'both',
       onStdout(chunk) {
-        console.log(chunk.toString("utf8"));
+        console.log(chunk.toString('utf8'));
       },
       onStderr(chunk) {
-        console.log(chunk.toString("utf8"));
+        console.log(chunk.toString('utf8'));
       }
     });
 
     if (code > 0) {
       throw Error(`Command exited with code ${code}`);
     }
-    console.log("✅ SSH Action finished.");
+    console.log('✅ SSH Action finished.');
   } catch (err) {
-    console.error(`⚠️ An error happened executing command ${command}.`, err?.message ?? err);
+    console.error(
+      `⚠️ An error happened executing command ${command}.`,
+      err?.message ?? err
+    );
     core.setFailed(err.message);
     process.abort();
   }
