@@ -18,6 +18,13 @@ jobs:
           username: garygrossgarten
           password: ${{ secrets.PASSPHRASE }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
+      - name: User/Pw
+        uses: ./
+        with:
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}  
       - name: This step should fail
         uses: ./
         with:
