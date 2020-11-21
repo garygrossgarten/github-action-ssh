@@ -1,0 +1,22 @@
+name: Command via SSH
+
+on: 
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: ls -a via OPEN SSH Private Key
+        uses: ./
+        with:
+          command: ls -a
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+        env:
+          CI: true
