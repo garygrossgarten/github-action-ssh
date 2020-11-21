@@ -18,10 +18,7 @@ jobs:
           username: garygrossgarten
           password: ${{ secrets.PASSPHRASE }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
-        env:
-          CI: true
-
-       - name: This step should fail
+      - name: This step should fail
         uses: ./
         with:
           command: sh throw_error.sh
