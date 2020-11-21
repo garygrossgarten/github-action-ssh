@@ -1,4 +1,4 @@
-name: Command via SSH
+name: Test latest commit
 
 on: 
   push
@@ -20,3 +20,14 @@ jobs:
           privateKey: ${{ secrets.PRIVATE_KEY}}
         env:
           CI: true
+
+       - name: This step should fail
+        uses: ./
+        with:
+          command: sh throw_error.sh
+          host: ${{ secrets.HOST }}
+          username: garygrossgarten
+          password: ${{ secrets.PASSPHRASE }}
+          privateKey: ${{ secrets.PRIVATE_KEY}}
+        env:
+          CI: true    
