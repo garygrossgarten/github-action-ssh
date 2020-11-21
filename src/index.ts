@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import {NodeSSH} from 'node-ssh';
+import {Config, NodeSSH} from 'node-ssh';
 import {keyboardFunction} from './keyboard';
 
 async function run() {
@@ -43,16 +43,20 @@ async function connect(
   console.log(`Establishing a SSH connection to ${host}.`);
 
   try {
-    await ssh.connect({
+    const config: Config = {
       host: host,
       port: port,
       username: username,
       password: password,
       passphrase: passphrase,
-      privateKey: privateKey,
       tryKeyboard: tryKeyboard,
       onKeyboardInteractive: tryKeyboard ? keyboardFunction(password) : null
-    });
+    };
+    if (privateKey) {
+      console.log('using provided private key');
+      config.privateKey = privateKey;
+    }
+    await ssh.connect(config);
     console.log(`🤝 Connected to ${host}.`);
   } catch (err) {
     console.error(`⚠️ The GitHub Action couldn't connect to ${host}.`, err);
