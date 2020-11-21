@@ -13,16 +13,6 @@ jobs:
           command: ls -a
           host: ${{ secrets.HOST }}
           username: garygrossgarten
-          passphrase: ${{ secrets.PASSPHRASE }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
-      - name: this step should fail
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: node fail.js
-          host: ${{ secrets.HOST }}
-          username: garygrossgarten
-          passphrase: ${{ secrets.PASSPHRASE }}
-          privateKey: ${{ secrets.PRIVATE_KEY}}
-
         env:
           CI: true
