@@ -84,6 +84,9 @@ async function executeCommand(ssh: NodeSSH, command: string) {
       throw Error(`Command exited with code ${code}`);
     }
     console.log('✅ SSH Action finished.');
+    if (ssh.isConnected()) {
+      ssh.dispose()
+    }
   } catch (err) {
     console.error(
       `⚠️ An error happened executing command ${command}.`,
@@ -93,5 +96,10 @@ async function executeCommand(ssh: NodeSSH, command: string) {
     process.abort();
   }
 }
+
+process.on('uncaughtException', (err) => {
+  if (err['code'] !== 'ECONNRESET')
+    throw err
+})
 
 run();
