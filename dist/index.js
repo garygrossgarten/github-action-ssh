@@ -11352,6 +11352,9 @@ function executeCommand(ssh, command) {
                 throw Error(`Command exited with code ${code}`);
             }
             console.log('✅ SSH Action finished.');
+            if (ssh.isConnected()) {
+                ssh.dispose();
+            }
         }
         catch (err) {
             console.error(`⚠️ An error happened executing command ${command}.`, (_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : err);
@@ -11360,6 +11363,10 @@ function executeCommand(ssh, command) {
         }
     });
 }
+process.on('uncaughtException', (err) => {
+    if (err['code'] !== 'ECONNRESET')
+        throw err;
+});
 run();
 
 
