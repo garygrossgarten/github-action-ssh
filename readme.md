@@ -45,5 +45,5 @@ Check out [the workflow example](.github/workflows/ssh-example-workflow.yml) for
 
 ---
 
-This thing is build using Typescript and
+This thing is built using Typescript and
 [ssh2](https://github.com/mscdex/ssh2) (via [node-ssh](https://github.com/steelbrain/node-ssh)). 🚀
