@@ -27,7 +27,7 @@
   "author": "garygrossgarten",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6",
+    "@actions/core": "^1.9.1",
     "node-ssh": "^11.1.1"
   },
   "devDependencies": {
