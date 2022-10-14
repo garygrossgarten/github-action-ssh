@@ -1,6 +1,6 @@
 {
   "name": "@garygrossgarten/github-action-ssh",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "Run commands on a remote server via SSH.",
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
-    "pack": "ncc build"
+    "pack": "ncc build --source-map --license licenses.txt"
   },
   "bin": {
     "github-action-ssh": "dist/index.js"
@@ -27,13 +27,15 @@
   "author": "garygrossgarten",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "node-ssh": "^11.1.1"
+    "@actions/core": "^1.10.0",
+    "node-ssh": "^13.0.0"
   },
   "devDependencies": {
-    "@types/node": "^12.7.12",
-    "@zeit/ncc": "^0.22.3",
-    "prettier": "^2.2.0",
-    "typescript": "4.1.2"
+    "@types/node": "^16.11.6",
+    "@types/ssh2": "^1.11.6",
+    "@types/ssh2-streams": "^0.1.9",
+    "@vercel/ncc": "^0.34.0",
+    "prettier": "^2.7.1",
+    "typescript": "4.8.4"
   }
 }
