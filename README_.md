@@ -2,6 +2,8 @@
 
 Simple GitHub Action to run a command on a remote server using SSH. This is working with the latest [GitHub Actions](https://github.com/features/actions).
 
+See the [中文文档](README-zh.md) for Chinese readme.
+
 ## ✨ Example Usage
 
 **Example using OpenSSH encrypted private key**
