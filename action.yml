@@ -29,7 +29,7 @@ inputs:
     description: "Try keyboard-interactive user authentication if primary user authentication method fails."
     required: false
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
 branding:
   color: "purple"
