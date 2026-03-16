@@ -27,15 +27,15 @@
   "author": "garygrossgarten",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
-    "node-ssh": "^13.0.0"
+    "@actions/core": "^2.0.0",
+    "node-ssh": "^13.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.1",
-    "@types/ssh2": "^1.11.6",
-    "@types/ssh2-streams": "^0.1.9",
-    "@vercel/ncc": "^0.34.0",
-    "prettier": "^2.7.1",
-    "typescript": "4.8.4"
+    "@types/node": "^24.12.0",
+    "@types/ssh2": "^1.15.5",
+    "@types/ssh2-streams": "^0.1.13",
+    "@vercel/ncc": "^0.38.4",
+    "prettier": "^3.8.1",
+    "typescript": "5.9.3"
   }
 }
