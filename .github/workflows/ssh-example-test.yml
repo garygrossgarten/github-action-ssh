@@ -1,7 +1,9 @@
 name: Test latest commit
 
-on: 
-  push
+on:
+  push:
+    branches: ['master']
+  workflow_dispatch:
 
 jobs:
   build:
