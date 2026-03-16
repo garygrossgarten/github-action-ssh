@@ -1,6 +1,9 @@
 name: Command via SSH
 
-on: push
+on:
+  push:
+    branches: ['master']
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,8 +15,7 @@ jobs:
         with:
           command: ls -a
           host: ${{ secrets.HOST }}
-          username: garygrossgarten
-          password: ${{ secrets.PASSPHRASE }}
+          username: garydev
           privateKey: ${{ secrets.PRIVATE_KEY}}
         env:
           CI: true
