@@ -18,7 +18,6 @@ jobs:
           command: ls -a
           host: ${{ secrets.HOST }}
           username: garydev
-          password: ${{ secrets.PASSPHRASE }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
       - name: User/Pw
         uses: ./
@@ -33,7 +32,6 @@ jobs:
           command: sh throw_error.sh
           host: ${{ secrets.HOST }}
           username: garydev
-          password: ${{ secrets.PASSPHRASE }}
           privateKey: ${{ secrets.PRIVATE_KEY}}
         env:
           CI: true    
