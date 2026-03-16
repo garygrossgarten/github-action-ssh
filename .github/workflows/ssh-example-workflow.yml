@@ -1,9 +1,6 @@
 name: Command via SSH
 
-on:
-  push:
-    branches: ['master']
-  workflow_dispatch:
+on: push
 
 jobs:
   build:
